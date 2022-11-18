@@ -18,8 +18,8 @@ test('Testando cadastro de três perguntas', () => {
   modelo.cadastrar_pergunta('3 + 3 = ?');
   const perguntas = modelo.listar_perguntas(); 
   expect(perguntas.length).toBe(3);
-  expect(perguntas[0].texto).toBe('1 + 1 = ?');
-  expect(perguntas[1].texto).toBe('2 + 2 = ?');
+  expect(perguntas[0].texto).toEqual('1 + 1 = ?');
+  expect(perguntas[1].texto).toEqual('2 + 2 = ?');
   expect(perguntas[2].num_respostas).toBe(0);
   expect(perguntas[1].id_pergunta).toBe(perguntas[2].id_pergunta-1);
 });
@@ -30,10 +30,10 @@ test('Testando get_respostas', () => {
   modelo.cadastrar_pergunta('Qual é a linguagem orientada a objetos mais utilizada atualmente?');
   modelo.cadastrar_resposta(2, 'C++');
   modelo.cadastrar_resposta(2, 'Java');
-  const respostas = modelo.get_respostas(2)
-  expect(respostas.length).toBe(2)
+  const respostas = modelo.get_respostas(2);
+  expect(respostas.length).toBe(2);
   expect(respostas[0].texto).toEqual('C++');
-  expect(respostas[0].id_pergunta).toBe(respostas[1].id_pergunta)
+  expect(respostas[0].id_pergunta).toBe(respostas[1].id_pergunta);
 });
 
 test('Testando cadastro de três respostas', () => {
@@ -41,15 +41,20 @@ test('Testando cadastro de três respostas', () => {
   modelo.cadastrar_resposta(1, 'Ainda não descobri!');
   modelo.cadastrar_resposta(1, 'Estou buscando a resposta online. Se achar algo, informo');
   modelo.cadastrar_resposta(1, 'Mesma dúvida aqui!');
-  const respostas = modelo.get_respostas(1)
-  expect(respostas.length).toBe(3)
+  const respostas = modelo.get_respostas(1);
+  expect(respostas.length).toBe(3);
   expect(respostas[0].texto).toEqual('Ainda não descobri!');
   expect(respostas[1].texto).toEqual('Estou buscando a resposta online. Se achar algo, informo');
-  expect(respostas[2].id_pergunta).toBe(respostas[1].id_pergunta)
+  expect(respostas[2].id_pergunta).toBe(respostas[1].id_pergunta);
 });
 
-/*test('Testando get_pergunta', () => {
+test('Testando get_pergunta', () => {
+  modelo.cadastrar_pergunta('Quais testes levam mais tempos para serem implementados?');
   modelo.cadastrar_pergunta('Como acessar o id da pergunta?');
-  pergunta = modelo.get_pergunta(1)
-  expect(pergunta.texto).toEqual('Como acessar o id da pergunta?');
-});*/
+  const perguntas = modelo.listar_perguntas();
+  const pergunta = modelo.get_pergunta(perguntas[0].id_pergunta);
+  expect(pergunta.texto).toEqual('Quais testes levam mais tempos para serem implementados?');
+  expect(pergunta.id_usuario).toBe(perguntas[0].id_usuario);
+  expect(modelo.get_num_respostas(pergunta.id_usuario)).toBe(0);
+  expect(pergunta.id_pergunta).toBe(perguntas[0].id_pergunta);
+});
